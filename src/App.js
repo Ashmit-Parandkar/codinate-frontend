@@ -1,23 +1,20 @@
 import logo from './logo.svg';
 import './App.css';
+import RoomItem from './components/RoomItem';
 
 function App() {
+
+  const roomid1 = "fzey34br";
+  const roomid2 = "het2uj2f";
+  const roomname1 = "Test room 1";
+  const roomname2 = "Test room 2";
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="container">
+      <RoomItem roomid={roomid1} roomname={roomname1}/>
+      <RoomItem roomid={roomid2} roomname={roomname2} />
+      </div>
     </div>
   );
 }

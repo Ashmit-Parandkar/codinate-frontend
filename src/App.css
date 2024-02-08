@@ -36,3 +36,42 @@
     transform: rotate(360deg);
   }
 }
+
+.join-card{
+  background-color: #121212;
+  color: white;
+  box-shadow: 2px 2px 8px -1px darkturquoise;
+  font-size: 20px;
+}
+
+.card-room-id{
+  text-align: left;
+  height: 10vh;
+  margin-left: 2vw;
+  left: 16vw;
+  top: 20%;
+  margin-top: 2vh;
+}
+
+.card-room-name{
+  position: absolute;
+  left: 20vw;
+  top: 15%;
+}
+
+.join-room-button{
+  justify-self: center;
+  background-color: white;
+  color: black;
+  top: 25%;
+  position: absolute;
+  right: 6vw;
+  padding: 8px;
+  border: none;
+  box-shadow: 2px 2px 8px -1px darkturquoise;
+}
+
+.join-room-button:hover{
+  background-color: darkturquoise;
+  color: black;
+}

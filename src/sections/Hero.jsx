@@ -2,12 +2,12 @@ import React from 'react';
 import { arrowRight } from '../assets/icons';
 import Button from '../components/Button';
 
-const Hero = ({setshowModal}) => {
+const Hero = ({setshowModalC,setshowModalJ}) => {
   return (
     <section id='home' className='w-full flex justify-evenly items-center m-auto h-[600px]'>
     <div className='flex flex-col gap-9 justify-center items-center'>
-    <Button label="Create Room" setshowModal={setshowModal} ></Button>
-    <Button label="Join Room" setshowModal={setshowModal}></Button>
+    <Button label="Create Room" setshowModal={setshowModalC} > </Button>
+    <Button label="Join Room" setshowModal={setshowModalJ}></Button>
     <Button label="View the projects" iconURL={arrowRight} ></Button>
 
     

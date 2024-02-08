@@ -1,8 +1,9 @@
 import React from 'react'
 import { navLinks } from '../constants'
 import Button from './Button'
+import Forms from '../sections/Forms'
 
-const Nav = ({setshowModal}) => {
+const Nav = ({setshowModalLogin}) => {
   return (
     <header className='px-8 bg-[#212121] border-b-2 rounded-b-3xl border-cyan-300 shadow-cyan-500 shadow-xl py-8 w-full'>
       <nav className=' flex justify-between item-center max-container'>
@@ -16,7 +17,7 @@ const Nav = ({setshowModal}) => {
         })} 
         </ul>
 
-        <Button className='bg-[#F5F7F8] w-24 rounded-lg hover:bg-slate-300 text' label="SignUp" setshowModal={setshowModal}></Button>
+        <Button className='bg-[#F5F7F8] w-24 rounded-lg hover:bg-slate-300 text' label="Signin" setshowModal={setshowModalLogin}></Button>
       </nav>
     </header>
   )

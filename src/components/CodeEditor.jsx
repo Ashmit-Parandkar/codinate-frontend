@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AceEditor from "react-ace";
-
+import { w3cwebsocket as W3CWebSocket } from "websocket";
 // Importing language modes and themes for Ace Editor
 import "ace-builds/src-noconflict/mode-javascript";
 import "ace-builds/src-noconflict/mode-python";
@@ -22,10 +22,49 @@ const CodeEditor = () => {
   const [language, setLanguage] = useState("javascript");
   const [theme, setTheme] = useState("monokai");
   const [fontSize, setFontSize] = useState(14);
+  const [client, setClient] = useState(null);
 
+  useEffect(() => {
+    // Establish WebSocket connection when component mounts
+    const newClient = new W3CWebSocket("ws://localhost:9090");
+    setClient(newClient);
+
+    // Cleanup function to close WebSocket connection when component unmounts
+    return () => {
+      if (client) {
+        client.close();
+      }
+    };
+  }, []); // Empty dependency array ensures this effect runs only once on mount
+
+  useEffect(() => {
+    if (!client) return; // Exit early if client is not yet initialized
+  
+    client.onopen = () => {
+      console.log("WebSocket Client Connected");
+    };
+    client.onmessage = (message) => {
+      // Convert Blob to text
+      message.data.text().then((text) => {
+        console.log("Message from server: ", text);
+        setCode(text);
+      }).catch((error) => {
+        console.error("Error converting Blob to text: ", error);
+      });
+    };
+  }, [client]);
+
+  const handleCodeChange = (newCode) => {
+    setCode(newCode);
+    if (client) {
+      client.send(newCode);
+    }
+  };
   const runCode = () => {
+    if (client) {
+      client.send(code);
+    }
     // You can run the code here and set the output
-    // For example, in a real environment, you might use a server to run the code
     // For simplicity, let's just set the output as the input for now
     setOutput(input);
   };
@@ -76,7 +115,7 @@ const CodeEditor = () => {
         theme={theme}
         fontSize={fontSize}
         value={code}
-        onChange={setCode}
+        onChange={handleCodeChange}
         width="100%"
         height="300px"
         showPrintMargin={true}

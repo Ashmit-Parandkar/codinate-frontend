@@ -51,7 +51,7 @@ export default function App() {
 
         <section>
         <Modal isVisible={showModalLogin} setshowModal={setshowModalLogin}><Login></Login></Modal>
-        <Modal id="create-room" isVisible={showModalCreate} setshowModal={setshowModalCreate}><CreateRoom></CreateRoom></Modal>
+        <Modal id="create-room" isVisible={showModalCreate} setshowModal={setshowModalCreate}><CreateRoom setshowModal={setshowModalCreate}></CreateRoom></Modal>
         <Modal id="join" isVisible={showModalJoin} setshowModal={setshowModalJoin}><JoinRoom setshowModal={setshowModalJoin}></JoinRoom></Modal>
         </section>
 

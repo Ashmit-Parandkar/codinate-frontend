@@ -34,13 +34,13 @@ const JoinRoom = (props) => {
       return response.json();
     })
     .then((data) => {
-      console.log("Form submitted successfully:", data);
+      console.log("Form submitted successfully:", data.UserName);
       // Optionally, reset the form fields after successful submission
       // setFormData({ username: '', roomId: '', password: '' });
       // Redirect or perform any other action upon successful submission
       // window.location.href = `/code/${data.RoomId}`;
       props.setshowModal(false);
-      navigateTo(`/code/${data.RoomId}`,{state:{roomData: data}})
+      navigateTo(`/code/${data.RoomId}`,{state:{roomId: data.RoomId, password: data.password, senderName: data.UserName}})  
     })
     .catch((error) => {
       console.error("Error submitting form:", error);

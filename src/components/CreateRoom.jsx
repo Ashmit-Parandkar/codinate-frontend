@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios"
 import { useNavigate } from 'react-router-dom';
 
-const CreateRoom = () => {
+const CreateRoom = (props) => {
   const [formData, setFormData] = useState({
     userName: "",
     roomName: "",
@@ -39,9 +39,10 @@ const CreateRoom = () => {
       return response.json();
     })
     .then((data) => {
-      console.log("Form submitted successfully:", data.room.roomId);
+      console.log("Form submitted successfully:", data.room.members[data.room.members.length-1].name);
       // history.push("/code", { roomData: data });
-      navigateTo(`/code/${data.room.roomId}`,{state:{roomData: data}})
+      props.setshowModal(false);
+      navigateTo(`/code/${data.room.roomId}`,{state:{roomId: data.room.roomId, password: data.room.password, senderName:data.room.members[data.room.members.length-1].name}})
       // Redirect to the code editor page
       //window.location.href = '/code'; // Replace '/code' with your actual code editor URL
     })

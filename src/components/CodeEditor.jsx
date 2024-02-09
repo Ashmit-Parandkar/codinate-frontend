@@ -44,11 +44,16 @@ const CodeEditor = () => {
     socket.on("connect", () => {
       console.log("Socket.io client connected");
     });
-
+    socket.emit("addProjectRoom",roomData.roomId)
     socket.on("currentCode", (newCode) => {
+      console.log("Hello", newCode);
       console.log("Received current code from server:", newCode);
       setCode(newCode);
     });
+
+    if (socket) { 
+    socket.emit("message",{roomId:roomData.roomId, newCode:""})
+    }
 
     return () => {
       console.log("Socket.io client disconnected");
@@ -56,15 +61,23 @@ const CodeEditor = () => {
   }, [socket]);
 
   useEffect(() => {
-    if (location.state && location.state.roomData.room) {
-      setRoomData(location.state.roomData.room);
+    console.log("location.state : ",location.state)
+    if (location.state) {
+      setRoomData({
+        roomId: location.state.roomId,
+        password: location.state.password,
+        senderName: location.state.senderName
+      });
+      console.log(roomData);
     }
   }, [location]);
 
   const handleCodeChange = (newCode) => {
+    console.log("Helllll")
     setCode(newCode);
-    if (socket) {
-      socket.emit("message", newCode); // Emitting code change to server
+    if (socket) { 
+      console.log("roomId", roomData);
+      socket.emit("message", {roomId: roomData.roomId, newCode: newCode}); // Emitting code change to server
     }
   };
 
@@ -77,8 +90,10 @@ const CodeEditor = () => {
   };
 
   const copyRoomInfo = () => {
+    console.log("Copied room info, ", roomData)
     if (!roomData) return;
-    const roomInfo = `Room ID: ${roomData.roomId}, Room Name: ${roomData.roomName}`;
+    console.log("Copied room info2")
+    const roomInfo = `Room ID: ${roomData.roomId} | Password: ${roomData.password}`;
     navigator.clipboard.writeText(roomInfo)
       .then(() => {
         console.log("Room info copied to clipboard:", roomInfo);
@@ -204,7 +219,7 @@ const CodeEditor = () => {
             />
           </div>
         </div>
-        <Chat />
+        <Chat roomData={roomData}/>
       </div>
     </div>
   );

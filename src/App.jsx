@@ -42,7 +42,7 @@ export default function App() {
           </section>
         </>}/>
 
-        <Route exact path='/code' element={
+        <Route exact path='/code/:roomId' element={
           <CodeEditor />
         }/>
 
@@ -52,7 +52,7 @@ export default function App() {
         <section>
         <Modal isVisible={showModalLogin} setshowModal={setshowModalLogin}><Login></Login></Modal>
         <Modal id="create-room" isVisible={showModalCreate} setshowModal={setshowModalCreate}><CreateRoom></CreateRoom></Modal>
-        <Modal id="join" isVisible={showModalJoin} setshowModal={setshowModalJoin}><JoinRoom></JoinRoom></Modal>
+        <Modal id="join" isVisible={showModalJoin} setshowModal={setshowModalJoin}><JoinRoom setshowModal={setshowModalJoin}></JoinRoom></Modal>
         </section>
 
     </>

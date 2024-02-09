@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios"
+import { useNavigate } from 'react-router-dom';
 
 const CreateRoom = () => {
   const [formData, setFormData] = useState({
@@ -7,6 +8,8 @@ const CreateRoom = () => {
     roomName: "",
     password: ""
   });
+
+  const navigateTo = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,11 +39,11 @@ const CreateRoom = () => {
       return response.json();
     })
     .then((data) => {
-      console.log("Form submitted successfully:", data);
-      // Optionally, reset the form fields after successful submission
-      setFormData({ userName: "", roomName: "", password: "" });
+      console.log("Form submitted successfully:", data.room.roomId);
+      // history.push("/code", { roomData: data });
+      navigateTo(`/code/${data.room.roomId}`,{state:{roomData: data}})
       // Redirect to the code editor page
-      window.location.href = '/code'; // Replace '/code' with your actual code editor URL
+      //window.location.href = '/code'; // Replace '/code' with your actual code editor URL
     })
     .catch((error) => {
       console.error("Error submitting form:", error);

@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const JoinRoom = () => {
+const JoinRoom = (props) => {
   const [formData, setFormData] = useState({
     userName: '',
     roomId: '',
     password: ''
   });
+
+  const navigateTo = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -14,6 +17,8 @@ const JoinRoom = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    console.log(formData);
 
     fetch("http://localhost:8080/api/joinRoom", {
       method: "POST",
@@ -31,9 +36,11 @@ const JoinRoom = () => {
     .then((data) => {
       console.log("Form submitted successfully:", data);
       // Optionally, reset the form fields after successful submission
-      setFormData({ username: '', roomid: '', password: '' });
+      // setFormData({ username: '', roomId: '', password: '' });
       // Redirect or perform any other action upon successful submission
-      window.location.href = '/code';
+      // window.location.href = `/code/${data.RoomId}`;
+      props.setshowModal(false);
+      navigateTo(`/code/${data.RoomId}`,{state:{roomData: data}})
     })
     .catch((error) => {
       console.error("Error submitting form:", error);

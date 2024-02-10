@@ -61,7 +61,7 @@ const CreateRoom = (props) => {
     <div className="sm:mx-auto sm:w-full sm:max-w-sm">
     <h1 className='text-center text-4xl font-bold text-white'>Cod<span className=' text-cyan-300 '>inate</span></h1>
   <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-white">
-    Join a Room
+    Create a Room
   </h2>
 </div>
     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">

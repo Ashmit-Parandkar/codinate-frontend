@@ -82,11 +82,64 @@ const CodeEditor = () => {
   };
 
   const runCode = () => {
-    if (socket) {
-      socket.emit("message", code); // Emitting code run request to server
+
+    console.log("This is code : ",code)
+
+
+    let currLang = language
+
+    if(currLang == 'javascript'){
+      currLang = 'js';
     }
+    if(currLang == 'c_cpp'){
+      currLang = 'cpp';
+    }
+    if(currLang == 'python'){
+      currLang = 'py';
+    }
+    if(currLang == 'java'){
+      currLang = 'java';
+    }
+    // if (socket) {
+    //   socket.emit("message", code); // Emitting code run request to server
+    // }
+    
     // For simplicity, let's just set the output as the input for now
-    setOutput(input);
+    // setOutput(input);
+
+    console.log(currLang)
+
+
+    fetch("http://localhost:8080/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({code:code, language: currLang, input:input})
+    })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      console.log("Code Data : ", data);
+
+      setOutput(data.output)
+      // Optionally, reset the form fields after successful submission
+      // setFormData({ username: '', roomId: '', password: '' });
+      // Redirect or perform any other action upon successful submission
+      // window.location.href = `/code/${data.RoomId}`;
+      // props.setshowModal(false);
+      // navigateTo(`/code/${data.RoomId}`,{state:{roomId: data.RoomId, password: data.password, senderName: data.UserName}})  
+    })
+    .catch((error) => {
+      console.error("Error submitting form:", error);
+    });
+
+
+    
   };
 
   const copyRoomInfo = () => {
@@ -115,7 +168,6 @@ const CodeEditor = () => {
             onChange={(e) => setLanguage(e.target.value)}
           >
             <option value="javascript">JavaScript</option>
-            <option value="html">HTML</option>
             <option value="python">Python</option>
             <option value="java">Java</option>
             <option value="c_cpp">C++</option>
@@ -177,7 +229,10 @@ const CodeEditor = () => {
         <div className="flex flex-col w-96 gap-7" style={{margin:"-22px 0"}}>
           <div>
             <label htmlFor="input-textarea" className="text-white text-lg">Input:</label>
-            <AceEditor
+<br />
+            <textarea name="input" id="input" cols="30" rows="10" value={input} className="bg-gray-300 rounded-lg p-4" onChange={(e)=>{setInput(e.target.value)}}></textarea>
+
+            {/* <AceEditor
               mode={language}
               theme={theme}
               fontSize={fontSize}
@@ -195,11 +250,15 @@ const CodeEditor = () => {
                 showLineNumbers: true,
                 tabSize: 2,
               }}
-            />
+            /> */}
           </div>
           <div>
             <label htmlFor="output-textarea" className="text-white text-lg">Output:</label>
-            <AceEditor
+<br />
+            <textarea name="output" id="output" cols="30" className="bg-gray-300 rounded-lg p-4" rows="10" value={output}></textarea>
+
+
+            {/* <AceEditor
               mode={language}
               theme={theme}
               fontSize={fontSize}
@@ -216,10 +275,10 @@ const CodeEditor = () => {
                 showLineNumbers: true,
                 tabSize: 2,
               }}
-            />
+            /> */}
           </div>
         </div>
-        <Chat roomData={roomData}/>
+        {roomData && <Chat roomData={roomData} />}
       </div>
     </div>
   );
